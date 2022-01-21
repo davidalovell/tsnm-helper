@@ -16,7 +16,7 @@
 -- input 1: v8 1
 -- input 2: v8 2
 -- input 3: volume offset
--- input 4: gate delay (slop)
+-- input 4: gate delay
 
 -- txi getter, saves txi param and input values as a table
 txi = {param = {0,0,0,0}, input = {0,0,0,0}}
@@ -70,7 +70,7 @@ function init()
   refresh = clock.run(
     function()
       while true do
-        clock.sleep(0.1)
+        clock.sleep(0.05)
         output[1].dyn.time = 0.005 + map(txi.param[2], 0, 10, 0, 2.5)
         output[2].dyn.time = 0.005 + map(txi.param[2], 0, 10, 5, 10)
         output[4].dyn.attack = map(txi.param[3], 0, 10, 0, 1)
@@ -99,7 +99,7 @@ function selector(x, data, in_min, in_max, out_min, out_max)
   return data[ clamp( round( map( x, in_min, in_max, out_min, out_max ) ), out_min, out_max ) ]
 end
 
--- synth functions
+-- play function, called by gate to input 1 and 2
 function play(txi_input_ix)
   local random_level = math.random() * round(txi.input[3])
   local random_delay = math.random() * round(txi.input[4]) / 40
@@ -109,15 +109,11 @@ function play(txi_input_ix)
   output[3].volts = math.random() * 10 - 5
   output[4]()
 
-  synth(txi.input[txi_input_ix], txi.param[1] + random_level)
-end
-
-function synth(note, level)
-  local enabled = selector(level, {false, true}, 0, 0.1)
+  local enabled = selector(txi.param[1], {false, true}, 0, 0.1)
   if enabled == false then return end
 
-  note = round(note * 12) / 12
-  level = map(level, 0.5, 10, 0, 5)
+  local note = round(txi.input[txi_input_ix] * 12) / 12
+  local level = map(txi.param[1] + random_level, 0.5, 10, 0, 5)       
 
   ii.jf.play_note(note, level)
 end

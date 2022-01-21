@@ -70,7 +70,7 @@ function init()
   refresh = clock.run(
     function()
       while true do
-        clock.sleep(0.1)
+        clock.sleep(0.05)
         output[1].dyn.time = 0.005 + map(txi.param[2], 0, 10, 0, 2.5)
         output[2].dyn.time = 0.005 + map(txi.param[2], 0, 10, 5, 10)
         output[4].dyn.attack = map(txi.param[3], 0, 10, 0, 1)

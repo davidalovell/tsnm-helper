@@ -16,7 +16,7 @@
 -- input 1: v8 1
 -- input 2: v8 2
 -- input 3: volume offset
--- input 4: gate delay (slop)
+-- input 4: gate delay
 
 -- txi getter, saves txi param and input values as a table
 txi = {param = {0,0,0,0}, input = {0,0,0,0}}

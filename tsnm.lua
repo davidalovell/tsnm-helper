@@ -101,7 +101,7 @@ end
 
 -- play function, called by gate to input 1 and 2
 function play(txi_input_ix)
-  local random_level = math.random() * round(txi.input[3])
+  local random_level = math.random() * round(txi.input[3]) / 2
   local random_delay = math.random() * round(txi.input[4]) / 40
 
   clock.sleep(0.05 + random_delay)

@@ -18,6 +18,11 @@
 -- input 3: volume offset
 -- input 4: gate delay
 
+-- ideas
+-- remove ar envelope
+-- add second lfo rate (param 3)
+-- add clock divider (param 4, output 4)
+
 -- txi getter, saves txi param and input values as a table
 txi = {param = {0,0,0,0}, input = {0,0,0,0}}
 
@@ -40,6 +45,8 @@ txi.refresh = clock.run(
     end
   end
 )
+
+txi.input_offset = 1/12 -- to account for my failure to get round to calibrating my txi
 
 -- init
 function init()
@@ -112,7 +119,8 @@ function play(txi_input_ix)
   local enabled = selector(txi.param[1], {false, true}, 0, 0.1)
   if enabled == false then return end
 
-  local note = round(txi.input[txi_input_ix] * 12) / 12
+  local volts = txi.input[txi_input_ix] + txi.input_offset
+  local note = round(volts * 12) / 12
   local level = map(txi.param[1] + random_level, 0.5, 10, 0, 5)       
 
   ii.jf.play_note(note, level)

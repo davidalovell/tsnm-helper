@@ -22,6 +22,7 @@
 -- remove ar envelope
 -- add second lfo rate (param 3)
 -- add clock divider (param 4, output 4)
+-- add harmonies coming from wsyn in some way
 
 -- txi getter, saves txi param and input values as a table
 txi = {param = {0,0,0,0}, input = {0,0,0,0}}
